@@ -33,7 +33,7 @@ class App extends Component {
 
     render() {
         return (
-            <Container id='main-container' fluid>
+            <Container id='main-container' className='h-100 d-flex flex-column' fluid>
                 <AppBar onclose={this.onclose}></AppBar>
                 <Navbar bg='success'>
                     <Navbar.Brand>Table editor</Navbar.Brand>
