@@ -1,0 +1,10 @@
+#appbar {
+    background-color: #1b6f2e;
+    z-index: 1051; /* because bootstrap modal has z-index:1050 */
+    -webkit-app-region: drag;
+}
+
+#close-button {
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+}
