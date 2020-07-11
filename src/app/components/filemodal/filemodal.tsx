@@ -5,11 +5,10 @@ import { Csv, csvToArray } from "../../util";
 
 interface FileModalProps {
     visible: boolean
-    onload: () => void;
+    onload: (table: Csv) => void;
 }
 
 interface FileModalState {
-    visible: boolean,
     table: Csv|null
 }
 
@@ -19,14 +18,14 @@ class FileModal extends Component<FileModalProps> {
 
     constructor(props: FileModalProps){
         super(props);
-        this.state = { visible: props.visible, table: null };
+        this.state = { table: null };
         this.fileRef = React.createRef();
         this.onFileLoaded = this.onFileLoaded.bind(this);
         this.onLoadButtonCLicked = this.onLoadButtonCLicked.bind(this);
     }
 
     shouldComponentUpdate(nextProps: FileModalProps, nextState: FileModalState): boolean {
-        if (nextProps == this.props && nextState.visible == this.state.visible) return false;
+        if (nextProps == this.props) return false;
         return true;
     }
 
@@ -49,7 +48,7 @@ class FileModal extends Component<FileModalProps> {
     onLoadButtonCLicked() {
         // Close dialog and emit event only if file successfuly loaded
         if (this.state.table) {
-            this.props.onload();
+            this.props.onload(this.state.table);
             this.hide();
         }
     }
@@ -57,7 +56,7 @@ class FileModal extends Component<FileModalProps> {
     render() {
         return (
             <Modal
-                show={this.state.visible}
+                show={this.props.visible}
                 backdrop='static'
                 keyboard='false'
                 centered
