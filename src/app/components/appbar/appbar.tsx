@@ -15,7 +15,7 @@ class AppBar extends Component<AppBarProps> {
 
     constructor(props: AppBarProps) {
         super(props);
-        this.state = props;
+        this.state = { onclose: props.onclose };
     }
 
     render() {

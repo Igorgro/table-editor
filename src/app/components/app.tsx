@@ -23,6 +23,10 @@ class App extends Component {
         window.close();
     }
 
+    onCsvLoaded() {
+
+    }
+
     render() {
         return (
             <Container id='main-container' fluid>
@@ -35,7 +39,7 @@ class App extends Component {
                         <TableViewer></TableViewer>
                     </Col>
                 </Row>
-                <FileModal show={this.state.modalShown}></FileModal>
+                <FileModal visible={this.state.modalShown} onload={this.onCsvLoaded}></FileModal>
             </Container>
         );
     }

@@ -1,26 +1,63 @@
 import React, { Component } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
+import { Csv, csvToArray } from "../../util";
+
 interface FileModalProps {
-    show: boolean
+    visible: boolean
+    onload: () => void;
 }
 
 interface FileModalState {
-    show: boolean
+    visible: boolean,
+    table: Csv|null
 }
 
 class FileModal extends Component<FileModalProps> {
     state: FileModalState
+    fileRef: React.RefObject<HTMLInputElement>;
 
     constructor(props: FileModalProps){
         super(props);
-        this.state = { show: props.show };
+        this.state = { visible: props.visible, table: null };
+        this.fileRef = React.createRef();
+        this.onFileLoaded = this.onFileLoaded.bind(this);
+        this.onLoadButtonCLicked = this.onLoadButtonCLicked.bind(this);
+    }
+
+    shouldComponentUpdate(nextProps: FileModalProps, nextState: FileModalState): boolean {
+        if (nextProps == this.props && nextState.visible == this.state.visible) return false;
+        return true;
+    }
+
+    hide() {
+        this.setState({ visible: false });
+    }
+
+    onFileLoaded() {
+        if (this.fileRef.current && this.fileRef.current.files) {
+            const reader = new FileReader();
+            reader.addEventListener('load', () => {
+                if (reader.result) {
+                    this.setState({ table: csvToArray(reader.result as string, ',') });
+                }
+            });
+            reader.readAsText(this.fileRef.current.files[0]);
+        }
+    }
+
+    onLoadButtonCLicked() {
+        // Close dialog and emit event only if file successfuly loaded
+        if (this.state.table) {
+            this.props.onload();
+            this.hide();
+        }
     }
 
     render() {
         return (
             <Modal
-                show={this.state.show}
+                show={this.state.visible}
                 backdrop='static'
                 keyboard='false'
                 centered
@@ -31,12 +68,12 @@ class FileModal extends Component<FileModalProps> {
                 <Modal.Body>
                     <Form>
                         <Form.Group>
-                            <Form.File></Form.File>
+                            <Form.File ref={this.fileRef} onInput={this.onFileLoaded}></Form.File>
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant='primary'>Open</Button>
+                    <Button variant='primary' onClick={this.onLoadButtonCLicked}>Open</Button>
                 </Modal.Footer>
             </Modal>
         )
