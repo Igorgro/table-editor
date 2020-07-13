@@ -10,9 +10,7 @@ interface AppBarState {
     onclose: () => void
 }
 
-class AppBar extends Component<AppBarProps> {
-    state: AppBarState
-
+class AppBar extends Component<AppBarProps, AppBarState> {
     constructor(props: AppBarProps) {
         super(props);
         this.state = { onclose: props.onclose };

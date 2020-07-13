@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
-import { Csv, csvToArray } from "../../util";
+import { Table, csvToArray } from "../../util";
 
 interface FileModalProps {
     visible: boolean
-    onload: (table: Csv) => void;
+    onload: (table: Table) => void;
 }
 
 interface FileModalState {
-    table: Csv|null
+    table: Table|null
 }
 
-class FileModal extends Component<FileModalProps> {
-    state: FileModalState
+class FileModal extends Component<FileModalProps, FileModalState> {
     fileRef: React.RefObject<HTMLInputElement>;
 
     constructor(props: FileModalProps){
@@ -27,10 +26,6 @@ class FileModal extends Component<FileModalProps> {
     shouldComponentUpdate(nextProps: FileModalProps, nextState: FileModalState): boolean {
         if (nextProps == this.props) return false;
         return true;
-    }
-
-    hide() {
-        this.setState({ visible: false });
     }
 
     onFileLoaded() {
@@ -49,7 +44,6 @@ class FileModal extends Component<FileModalProps> {
         // Close dialog and emit event only if file successfuly loaded
         if (this.state.table) {
             this.props.onload(this.state.table);
-            this.hide();
         }
     }
 

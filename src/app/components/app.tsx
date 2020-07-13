@@ -6,17 +6,15 @@ import './app.css';
 import { AppBar } from './appbar/appbar';
 import { TableViewer } from './tableviewer/tableviewer';
 import { FileModal } from './filemodal/filemodal';
-import { Csv } from "../util";
+import { Table } from "../util";
 
 interface AppState {
     modalVisible: boolean,
     tableVisible: boolean,
-    table: Csv|null
+    table: Table|null
 }
 
-class App extends Component {
-    state: AppState
-
+class App extends Component<{}, AppState> {
     constructor(props: any) {
         super(props);
         this.state = { modalVisible: true, tableVisible: false, table: null };
@@ -27,7 +25,7 @@ class App extends Component {
         window.close();
     }
 
-    onCsvLoaded(table: Csv) {
+    onCsvLoaded(table: Table) {
         this.setState({ modalVisible: false, tableVisible: true, table });
     }
 

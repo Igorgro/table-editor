@@ -1,14 +1,15 @@
-type Csv = Array<Array<string|number>>;
+type Table = Array<Array<string|number>>;
 
-function csvToArray(csv: string, delimiter: string): Csv {
+function csvToArray(csv: string, delimiter: string): Table {
     return csv.split('\n')
               .map(l => l.trim())
               .filter(l => l&&true)
               .map(l => l.split(delimiter)
-                         .map(i => isNaN(parseFloat(i.trim()))?i.trim().replace(/"/, ''):parseInt(i.trim())));
+                         .map(i => isNaN(parseFloat(i.trim()))?i.trim()
+                                                                .replace(/"/g, ''):parseInt(i.trim())));
 }
 
 export {
-    Csv,
+    Table,
     csvToArray
 }
