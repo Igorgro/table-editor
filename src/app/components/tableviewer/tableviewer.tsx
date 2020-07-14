@@ -4,20 +4,20 @@ import { Table } from "../../util";
 
 interface TableViewerProps {
     visibility: boolean,
-    table: Table|null
+    table: Table|null,
+    onTableChanged: (table: Table)=>void
 }
 
 type Point = Array<number>;
 
 interface TableViewerState {
-    table: Table|null,
     selectedCell: Point|null
 }
 
 class TableViewer extends Component<TableViewerProps, TableViewerState> {
     constructor(props: TableViewerProps) {
         super(props);
-        this.state = { table: props.table, selectedCell: null };
+        this.state = { selectedCell: null };
         this.onCellSelected = this.onCellSelected.bind(this);
         this.onCellChanged = this.onCellChanged.bind(this);
         this.onTableClicked = this.onTableClicked.bind(this);
@@ -28,11 +28,12 @@ class TableViewer extends Component<TableViewerProps, TableViewerState> {
     }
 
     onCellChanged(event: React.FormEvent<HTMLInputElement>) {
+        // Calculate coordinates of edited cell
         const coord = (event.target as HTMLTableDataCellElement).id.split(' ').map(s => parseInt(s));
-        if (this.state.table) {
-            let newTable = this.state.table;
+        if (this.props.table) {
+            let newTable = this.props.table;
             newTable[coord[0]][coord[1]] = (event.target as HTMLInputElement).value;
-            this.setState({table: newTable});
+            this.props.onTableChanged(newTable);
         }
     }
 
@@ -42,23 +43,17 @@ class TableViewer extends Component<TableViewerProps, TableViewerState> {
         this.setState({ selectedCell: null });
     }
 
-    componentDidUpdate(prevProps: TableViewerProps) {
-        // Update table in state using value from props
-        // only if table become visible
-        if (prevProps.visibility != this.props.visibility) this.setState({ table: this.props.table });
-    } 
-
     render(){
-        if (this.props.visibility && this.state.table) {
+        if (this.props.visibility && this.props.table) {
             return (
                 <BTable bordered striped onClick={this.onTableClicked}>
                     <thead>
                         <tr key='0' id='0'>
-                            {this.state.table[0].map((th, thn) => <th id={`0 ${thn}`} key={`0 ${thn}`}>{th.toString()}</th>)}
+                            {this.props.table[0].map((th, thn) => <th id={`0 ${thn}`} key={`0 ${thn}`}>{th.toString()}</th>)}
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.table.slice(1).map((row, rown) => {
+                        {this.props.table.slice(1).map((row, rown) => {
                             return (
                                 <tr key={`${rown+1}`} id={`${rown+1}`}>
                                     {row.map((item, itemn) => {

@@ -19,6 +19,7 @@ class App extends Component<{}, AppState> {
         super(props);
         this.state = { modalVisible: true, tableVisible: false, table: null };
         this.onCsvLoaded = this.onCsvLoaded.bind(this);
+        this.onTableChanged = this.onTableChanged.bind(this);
     }
 
     onclose(): void {
@@ -27,6 +28,10 @@ class App extends Component<{}, AppState> {
 
     onCsvLoaded(table: Table) {
         this.setState({ modalVisible: false, tableVisible: true, table });
+    }
+
+    onTableChanged(table: Table) {
+        this.setState({ table });
     }
 
     render() {
@@ -38,7 +43,7 @@ class App extends Component<{}, AppState> {
                 </Navbar>
                 <Row id='main-row'>
                     <Col id='main-col' className='h-100'>
-                        <TableViewer visibility={this.state.tableVisible} table={this.state.table}></TableViewer>
+                        <TableViewer visibility={this.state.tableVisible} table={this.state.table} onTableChanged={this.onTableChanged}></TableViewer>
                     </Col>
                 </Row>
                 <FileModal visible={this.state.modalVisible} onload={this.onCsvLoaded}></FileModal>
