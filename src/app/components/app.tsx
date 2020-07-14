@@ -37,7 +37,7 @@ class App extends Component<{}, AppState> {
                     <Navbar.Brand>Table editor</Navbar.Brand>
                 </Navbar>
                 <Row id='main-row'>
-                    <Col id='main-col'>
+                    <Col id='main-col' className='h-100'>
                         <TableViewer visibility={this.state.tableVisible} table={this.state.table}></TableViewer>
                     </Col>
                 </Row>
