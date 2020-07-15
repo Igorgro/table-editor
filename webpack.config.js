@@ -3,7 +3,7 @@ var HtmlWebpackPlugin =  require('html-webpack-plugin');
 const frontConfig = {
     entry: './src/app/index.tsx',
     mode: 'development',
-    target: 'web',
+    target: 'electron-renderer',
     output: {
         filename: './app/js/main.js'
     },

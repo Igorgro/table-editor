@@ -7,9 +7,10 @@ function createWindow() {
             width: 1024,
             height: 768,
             webPreferences: {
-                devTools: true
+                devTools: true,
+                nodeIntegration: true
             },
-            frame: false
+            frame: false,
         }
     );
     win.webContents.openDevTools();
