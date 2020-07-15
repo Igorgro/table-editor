@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Navbar as BNavbar, ButtonToolbar, ButtonGroup, Button } from "react-bootstrap";
 
 interface NavbarProps {
-    onOpenButtonClicked: ()=>Promise<void>
+    onOpenButtonClicked: () => Promise<void>,
+    onSaveButtonClicked: () => Promise<void>
 }
 
 class Navbar extends Component<NavbarProps> {
@@ -19,7 +20,7 @@ class Navbar extends Component<NavbarProps> {
                         <Button variant='light' onClick={this.props.onOpenButtonClicked}>
                             <i id='open-button' className='fa fa-folder-open fa-lg' aria-hidden='true'></i>
                         </Button>
-                        <Button variant='light'>
+                        <Button variant='light' onClick={this.props.onSaveButtonClicked}>
                             <i id='save-button' className='fa fa-floppy-o fa-lg' aria-hidden='true'></i>
                         </Button>
                     </ButtonGroup>

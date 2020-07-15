@@ -10,7 +10,7 @@ import './app.css';
 import { AppBar } from './appbar/appbar';
 import { Navbar } from "./navbar/navbar";
 import { TableViewer } from './tableviewer/tableviewer';
-import { Table, csvToArray } from "../util";
+import { Table, csvToTable, tableToCsv } from "../util";
 
 interface AppState {
     modalVisible: boolean,
@@ -24,6 +24,7 @@ class App extends Component<{}, AppState> {
         super(props);
         this.state = { modalVisible: false, tableVisible: false, filePath: null, table: null };
         this.onOpenButtonClicked = this.onOpenButtonClicked.bind(this);
+        this.onSaveButtonClicked = this.onSaveButtonClicked.bind(this);
         this.onTableChanged = this.onTableChanged.bind(this);
     }
 
@@ -32,16 +33,22 @@ class App extends Component<{}, AppState> {
     }
 
     async onOpenButtonClicked(): Promise<void> {
-        const path = (await dialog.showOpenDialog({
+        const path: string = (await dialog.showOpenDialog({
             filters: [
                 { name: 'CSV Files', extensions: ['csv'] }
             ],
             properties: ['openFile'] })).filePaths[0];
         const csv: string = await promises.readFile(path, {encoding: 'utf-8'});
-        this.setState({ tableVisible: true, filePath: path, table: csvToArray(csv, ',') });
+        this.setState({ tableVisible: true, filePath: path, table: csvToTable(csv, ',') });
     }
 
-    onTableChanged(table: Table) {
+    async onSaveButtonClicked(): Promise<void> {
+        if (this.state.filePath && this.state.table) {
+            await promises.writeFile(this.state.filePath, tableToCsv(this.state.table), { encoding: 'utf-8' });
+        }
+    }
+
+    onTableChanged(table: Table): void {
         this.setState({ table });
     }
 
@@ -49,7 +56,8 @@ class App extends Component<{}, AppState> {
         return (
             <Container id='main-container' className='h-100 d-flex flex-column' fluid>
                 <AppBar onclose={this.onclose}/>
-                <Navbar onOpenButtonClicked={this.onOpenButtonClicked}/>
+                <Navbar onOpenButtonClicked={this.onOpenButtonClicked}
+                        onSaveButtonClicked={this.onSaveButtonClicked}/>
                 <Row id='main-row'>
                     <Col id='main-col' className='h-100'>
                         <TableViewer visibility={this.state.tableVisible} table={this.state.table} onTableChanged={this.onTableChanged}/>
