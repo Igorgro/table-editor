@@ -1,4 +1,4 @@
-var HtmlWebpackPlugin =  require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const frontConfig = {
     entry: './src/app/index.tsx',
@@ -18,8 +18,8 @@ const frontConfig = {
                 exclude: /node_modules/,
             },
             {
-                test : /\.css$/,
-                use:['style-loader', 'css-loader']
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
             },
             {
                 test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
@@ -36,13 +36,13 @@ const frontConfig = {
             }
         ]
     },
-    plugins : [
+    plugins: [
         new HtmlWebpackPlugin ({
             filename: 'app/index.html',
-            template : 'src/app/html/index.html'
+            template: 'src/app/html/index.html'
         })
     ]
-}
+};
 
 const backConfig = {
     entry: './src/index.ts',
@@ -60,6 +60,6 @@ const backConfig = {
             }
         ]
     }
-}
+};
 
 module.exports = [frontConfig, backConfig];

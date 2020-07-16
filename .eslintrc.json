@@ -10,7 +10,8 @@
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:react/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "globals": {
@@ -23,6 +24,11 @@
 		"tsconfigRootDir": "."
     },
     "plugins": ["@typescript-eslint"],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
     "rules": {
         "arrow-spacing": [
             "error",
@@ -76,6 +82,7 @@
         "spaced-comment": [
             "warn",
             "always"
-        ]
+        ],
+        "@typescript-eslint/unbound-method" : [ "off" ]
     }
 }

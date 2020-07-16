@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar as BNavbar, ButtonToolbar, ButtonGroup, Button } from "react-bootstrap";
+import { Navbar as BNavbar, ButtonToolbar, ButtonGroup, Button } from 'react-bootstrap';
 
 interface NavbarProps {
     onOpenButtonClicked: () => Promise<void>,
@@ -11,7 +11,7 @@ class Navbar extends Component<NavbarProps> {
         super(props);
     }
 
-    render() {
+    render(): JSX.Element {
         return (
             <BNavbar bg='success' className='justify-content-between'>
                 <BNavbar.Brand>Table editor</BNavbar.Brand>
@@ -26,10 +26,10 @@ class Navbar extends Component<NavbarProps> {
                     </ButtonGroup>
                 </ButtonToolbar>
             </BNavbar>
-        )
+        );
     }
 }
 
 export {
     Navbar
-}
+};

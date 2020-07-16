@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Navbar } from 'react-bootstrap';
-import './appbar.css'
+import './appbar.css';
 
 interface AppBarProps {
     onclose: () => void
@@ -16,15 +16,15 @@ class AppBar extends Component<AppBarProps, AppBarState> {
         this.state = { onclose: props.onclose };
     }
 
-    render() {
+    render(): JSX.Element {
         return (
             <Navbar id='appbar' className='justify-content-end'>
                 <i onClick={this.state.onclose} id='close-button' className='fa fa-times' aria-hidden='true'></i>
             </Navbar>
-        )
+        );
     }
 }
 
 export {
     AppBar
-}
+};

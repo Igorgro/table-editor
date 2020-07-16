@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import { Container, Row, Col } from 'react-bootstrap';
-import { remote } from "electron";
-const dialog = remote.dialog
-import { promises } from "fs";
+import { remote } from 'electron';
+const dialog = remote.dialog;
+import { promises } from 'fs';
 
 import './app.css';
 import { AppBar } from './appbar/appbar';
-import { Navbar } from "./navbar/navbar";
+import { Navbar } from './navbar/navbar';
 import { TableViewer } from './tableviewer/tableviewer';
-import { Table, csvToTable, tableToCsv } from "../util";
+import { Table, csvToTable, tableToCsv } from '../util';
 
 interface AppState {
     modalVisible: boolean,
@@ -19,8 +19,8 @@ interface AppState {
     table: Table|null
 }
 
-class App extends Component<{}, AppState> {
-    constructor(props: any) {
+class App extends Component<unknown, AppState> {
+    constructor(props: unknown) {
         super(props);
         this.state = { modalVisible: false, tableVisible: false, filePath: null, table: null };
         this.onOpenButtonClicked = this.onOpenButtonClicked.bind(this);
@@ -38,7 +38,7 @@ class App extends Component<{}, AppState> {
                 { name: 'CSV Files', extensions: ['csv'] }
             ],
             properties: ['openFile'] })).filePaths[0];
-        const csv: string = await promises.readFile(path, {encoding: 'utf-8'});
+        const csv: string = await promises.readFile(path, { encoding: 'utf-8' });
         this.setState({ tableVisible: true, filePath: path, table: csvToTable(csv, ',') });
     }
 
@@ -52,12 +52,13 @@ class App extends Component<{}, AppState> {
         this.setState({ table });
     }
 
-    render() {
+    render(): JSX.Element {
         return (
             <Container id='main-container' className='h-100 d-flex flex-column' fluid>
                 <AppBar onclose={this.onclose}/>
-                <Navbar onOpenButtonClicked={this.onOpenButtonClicked}
-                        onSaveButtonClicked={this.onSaveButtonClicked}/>
+                <Navbar
+                    onOpenButtonClicked={this.onOpenButtonClicked}
+                    onSaveButtonClicked={this.onSaveButtonClicked}/>
                 <Row id='main-row'>
                     <Col id='main-col' className='h-100'>
                         <TableViewer visibility={this.state.tableVisible} table={this.state.table} onTableChanged={this.onTableChanged}/>
@@ -70,4 +71,4 @@ class App extends Component<{}, AppState> {
 
 export {
     App
-}
+};

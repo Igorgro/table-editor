@@ -22,6 +22,6 @@ body, html {
 }
 
 #main-col {
-    overflow-y: auto;
+    overflow-y: auto    ;
     padding: 16px;
 }
